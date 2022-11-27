@@ -26,18 +26,6 @@ export function cyclesReducer(state: CyclesState, action: any) {
             })
         
         case ActionTypes.INTERRUPT_CURRENT_CYCLE: {
-            // return 
-        //         ...state, 
-        //         cycles:state.cycles.map((cycle) => {
-        //             if(cycle.id == state.activeCycleId) {
-        //                 return { ...cycle, interruptedDate: new Date()}
-        //             } else {
-        //                 return cycle
-        //             }
-        //         }),
-        //         activeCycleId: null
-        //     }
-        // }
             const currentCycleIndex = state.cycles.findIndex((cycle) => {
                 return cycle.id == state.activeCycleId
             })

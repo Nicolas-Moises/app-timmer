@@ -1,23 +1,23 @@
 import { createContext, ReactNode, useState, useReducer, useEffect } from "react";
-import { differenceInSeconds } from 'date-fns'
-import { addNewCycleAction, interruptCurrentCycleAction, markCurretCycleAsFinishedAction } from "../reducers/cycles/actions";
+import { differenceInSeconds } from 'date-fns';
 
 import {  CycleProps, cyclesReducer } from '../reducers/cycles/reducer' 
+import { addNewCycleAction, interruptCurrentCycleAction, markCurretCycleAsFinishedAction } from "../reducers/cycles/actions";
 
 interface CreateCycleData {
-    task: string
-    minutesAmount: number
+    task: string;
+    minutesAmount: number;
 }
 
 interface CyclesContextType {
-    cycles: CycleProps[]
-    activeCycle: CycleProps | undefined
-    activeCycleId: string | null
-    maskCurrentCycleAsFinished: () => void
-    amountSecondsPassed: number
-    setSecondsPassed: (seconds: number) => void
-    createNewCycle: (data: CreateCycleData) => void
-    InterruptCurrentCycle: () => void
+    cycles: CycleProps[];
+    activeCycle: CycleProps | undefined;
+    activeCycleId: string | null;
+    amountSecondsPassed: number;
+    maskCurrentCycleAsFinished: () => void;
+    setSecondsPassed: (seconds: number) => void;
+    createNewCycle: (data: CreateCycleData) => void;
+    InterruptCurrentCycle: () => void;
 }
 
 export const CyclesContext = createContext({} as CyclesContextType)
@@ -28,15 +28,21 @@ interface CyclesContextProviderProps{
 
 
 
-export function CyclesContextProvider({ children }:CyclesContextProviderProps) {
+export function CyclesContextProvider({ 
+    children, 
+}:CyclesContextProviderProps) {
     const [cyclesState, dispatch] = useReducer(cyclesReducer, 
         {
             cycles: [],
             activeCycleId: null,
-        }, () => {
+        }, ():any => {
             const storedStateAsJSON = localStorage.getItem('@ignite-timer:cycles-state')
             if(storedStateAsJSON){
                 return JSON.parse(storedStateAsJSON)
+            }
+            return {
+                cycles: [],
+                activeCycle: null
             }
         }
     )
